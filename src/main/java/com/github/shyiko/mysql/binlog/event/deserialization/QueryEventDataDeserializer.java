@@ -32,7 +32,11 @@ public class QueryEventDataDeserializer implements EventDataDeserializer<QueryEv
         eventData.setExecutionTime(inputStream.readLong(4));
         inputStream.skip(1); // length of the name of the database
         eventData.setErrorCode(inputStream.readInteger(2));
-        inputStream.skip(inputStream.readInteger(2)); // status variables block
+        // inputStream.skip(inputStream.readInteger(2)); // status variables block
+        int statusVarsLength = inputStream.readInteger(2);
+        byte[] statusVars = inputStream.read(statusVarsLength);
+        eventData.setStatusVars(statusVars); // 原封不动传给上层
+
         eventData.setDatabase(inputStream.readZeroTerminatedString());
         eventData.setSql(inputStream.readString(inputStream.available()));
         return eventData;

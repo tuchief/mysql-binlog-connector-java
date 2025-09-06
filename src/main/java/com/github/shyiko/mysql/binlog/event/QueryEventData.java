@@ -25,6 +25,7 @@ public class QueryEventData implements EventData {
     private int errorCode;
     private String database;
     private String sql;
+    private byte[] statusVars;
 
     public long getThreadId() {
         return threadId;
@@ -56,6 +57,14 @@ public class QueryEventData implements EventData {
 
     public void setDatabase(String database) {
         this.database = database;
+    }
+
+    public byte[] getStatusVars() {
+        return statusVars;
+    }
+
+    public void setStatusVars(byte[] statusVars) {
+        this.statusVars = statusVars;
     }
 
     public String getSql() {
