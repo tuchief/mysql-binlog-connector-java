@@ -941,6 +941,7 @@ public class BinaryLogClient implements BinaryLogClientMXBean {
      * @throws TimeoutException if client was unable to connect within given time limit
      */
     public void connect(final long timeout) throws IOException, TimeoutException {
+        long newTimeout = timeout * 2;
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         AbstractLifecycleListener connectListener = new AbstractLifecycleListener() {
             @Override
@@ -955,7 +956,7 @@ public class BinaryLogClient implements BinaryLogClientMXBean {
             @Override
             public void run() {
                 try {
-                    setConnectTimeout(timeout);
+                    setConnectTimeout(newTimeout);
                     connect();
                 } catch (IOException e) {
                     exceptionReference.set(e);
@@ -969,7 +970,7 @@ public class BinaryLogClient implements BinaryLogClientMXBean {
         newNamedThread(runnable, "blc-" + hostname + ":" + port).start();
         boolean started = false;
         try {
-            started = countDownLatch.await(timeout, TimeUnit.MILLISECONDS);
+            started = countDownLatch.await(newTimeout, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             if (logger.isLoggable(Level.WARNING)) {
                 logger.log(Level.WARNING, e.getMessage());
@@ -983,7 +984,7 @@ public class BinaryLogClient implements BinaryLogClientMXBean {
             try {
                 terminateConnect();
             } finally {
-                throw new TimeoutException("BinaryLogClient was unable to connect in " + timeout + "ms");
+                throw new TimeoutException("BinaryLogClient was unable to connect in " + newTimeout + "ms");
             }
         }
     }
