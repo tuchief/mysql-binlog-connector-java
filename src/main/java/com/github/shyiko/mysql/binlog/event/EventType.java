@@ -216,7 +216,18 @@ public enum EventType {
     ANNOTATE_ROWS(160), //
     BINLOG_CHECKPOINT(161),
     MARIADB_GTID(162),
-    MARIADB_GTID_LIST(163);
+    MARIADB_GTID_LIST(163),
+
+    /**
+     * https://github.com/MariaDB/server/blob/main/sql/log_event.h
+     */
+    QUERY_COMPRESSED(165),
+    WRITE_ROWS_COMPRESSED_V1(166),
+    UPDATE_ROWS_COMPRESSED_V1(167),
+    DELETE_ROWS_COMPRESSED_V1(168),
+    WRITE_ROWS_COMPRESSED(169),
+    UPDATE_ROWS_COMPRESSED(170),
+    DELETE_ROWS_COMPRESSED(171);
 
     private static final EventType[] TYPE_BY_EVENT_NUMBER = buildEventTypeIndex();
     private final int eventNumber;

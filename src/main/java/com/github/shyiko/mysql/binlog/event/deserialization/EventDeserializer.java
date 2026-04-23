@@ -15,6 +15,10 @@
  */
 package com.github.shyiko.mysql.binlog.event.deserialization;
 
+import com.github.shyiko.mysql.binlog.deserializer.CompressedDeleteRowsEventDeserializer;
+import com.github.shyiko.mysql.binlog.deserializer.CompressedQueryEventDeserializer;
+import com.github.shyiko.mysql.binlog.deserializer.CompressedUpdateRowsEventDeserializer;
+import com.github.shyiko.mysql.binlog.deserializer.CompressedWriteRowsEventDeserializer;
 import com.github.shyiko.mysql.binlog.event.Event;
 import com.github.shyiko.mysql.binlog.event.EventData;
 import com.github.shyiko.mysql.binlog.event.EventHeader;
@@ -131,6 +135,22 @@ public class EventDeserializer {
             new MariadbGtidListEventDataDeserializer());
         eventDataDeserializers.put(EventType.TRANSACTION_PAYLOAD,
                 new TransactionPayloadEventDataDeserializer());
+
+        // ---- 新增：MariaDB 压缩事件注册 ----
+        eventDataDeserializers.put(EventType.QUERY_COMPRESSED,
+            new CompressedQueryEventDeserializer());
+        eventDataDeserializers.put(EventType.WRITE_ROWS_COMPRESSED_V1,
+            new CompressedWriteRowsEventDeserializer(tableMapEventByTableId));
+        eventDataDeserializers.put(EventType.WRITE_ROWS_COMPRESSED,
+            new CompressedWriteRowsEventDeserializer(tableMapEventByTableId));
+        eventDataDeserializers.put(EventType.UPDATE_ROWS_COMPRESSED_V1,
+            new CompressedUpdateRowsEventDeserializer(tableMapEventByTableId));
+        eventDataDeserializers.put(EventType.UPDATE_ROWS_COMPRESSED,
+            new CompressedUpdateRowsEventDeserializer(tableMapEventByTableId));
+        eventDataDeserializers.put(EventType.DELETE_ROWS_COMPRESSED_V1,
+            new CompressedDeleteRowsEventDeserializer(tableMapEventByTableId));
+        eventDataDeserializers.put(EventType.DELETE_ROWS_COMPRESSED,
+            new CompressedDeleteRowsEventDeserializer(tableMapEventByTableId));
     }
 
     public void setEventDataDeserializer(EventType eventType, EventDataDeserializer eventDataDeserializer) {
