@@ -45,7 +45,6 @@ public class CompressedDeleteRowsEventDeserializer
 
     @Override
     public DeleteRowsEventData deserialize(ByteArrayInputStream in) throws IOException {
-        log.info(">>> CompressedDeleteRowsEventDeserializer.deserialize() called");
         ByteArrayInputStream decompressed = decompressBody(in);
         return delegate.deserialize(decompressed);
     }

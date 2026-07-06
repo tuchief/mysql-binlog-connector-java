@@ -46,7 +46,6 @@ public class CompressedUpdateRowsEventDeserializer
 
     @Override
     public UpdateRowsEventData deserialize(ByteArrayInputStream in) throws IOException {
-        log.info(">>> CompressedUpdateRowsEventDeserializer.deserialize() called");
         ByteArrayInputStream decompressed = decompressBody(in);
         return delegate.deserialize(decompressed);
     }
