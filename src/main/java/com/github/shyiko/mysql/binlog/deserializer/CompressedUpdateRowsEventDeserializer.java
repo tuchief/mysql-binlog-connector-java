@@ -8,7 +8,6 @@ import com.github.shyiko.mysql.binlog.io.ByteArrayInputStream;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * UPDATE_ROWS_COMPRESSED_EVENT / UPDATE_ROWS_COMPRESSED_EVENT_V1 的反序列化器。
@@ -21,8 +20,6 @@ import java.util.logging.Logger;
  */
 public class CompressedUpdateRowsEventDeserializer
         extends AbstractCompressedRowsDeserializer<UpdateRowsEventData> {
-
-    private final Logger log = Logger.getLogger(getClass().getName());
 
     private final EventDataDeserializer<UpdateRowsEventData> delegate;
 

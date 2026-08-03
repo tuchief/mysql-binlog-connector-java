@@ -8,7 +8,6 @@ import com.github.shyiko.mysql.binlog.io.ByteArrayInputStream;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * DELETE_ROWS_COMPRESSED_EVENT / DELETE_ROWS_COMPRESSED_EVENT_V1 的反序列化器。
@@ -20,8 +19,6 @@ import java.util.logging.Logger;
  */
 public class CompressedDeleteRowsEventDeserializer
         extends AbstractCompressedRowsDeserializer<DeleteRowsEventData> {
-
-    private final Logger log = Logger.getLogger(getClass().getName());
 
     private final EventDataDeserializer<DeleteRowsEventData> delegate;
 
